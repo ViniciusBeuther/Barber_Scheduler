@@ -10,15 +10,21 @@ const Table = () => {
     }, [])
 
     async function fetchCompany(){
-        const { data } = await supabase
+
+        let { data } = await supabase
         .from('Company')
-        .select('*')
+        .select(`
+            *,
+            Schedules (
+            *
+            )
+        `)
+                
         setCompanies(data)
     }
 
   return (
     <div>
-      
     </div>
   )
 }
