@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../API/CreateCompany'
+import { Input, Typography } from '@material-tailwind/react'
 
 const Table = () => {
     const [data, setData] = useState([])
@@ -10,7 +11,6 @@ const Table = () => {
     }, [])
 
     async function fetchData(){
-
         let { data } = await supabase
         .from('Company')
         .select(`
@@ -27,12 +27,13 @@ const Table = () => {
     return (
         <>
             {data ? (
-                data.map((arrElement) => (
-                    <>
-                        <p>{arrElement.name}</p>
-                        <p>{arrElement.cnpj}</p>
-                    </>
-                ))
+                    data.map((arrElement, index) => (
+                        <div key={index} className='mb-2 bg-green-400'>
+                            <Typography>Empresa: {arrElement.name}</Typography>
+                            <Typography>CNPJ: {arrElement.cnpj}</Typography>
+                        </div>
+                    ))
+                
             ) : (<p>Loading....</p>) }
         </>
   )
