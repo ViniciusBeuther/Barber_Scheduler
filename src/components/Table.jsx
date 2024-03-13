@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { supabase } from '../API/CreateCompany'
 
 const Table = () => {
-    const [companies, setCompanies] = useState([])
-    console.log(companies)
+    const [data, setData] = useState([])
+    console.log(data)
 
     useEffect(() => {
-        fetchCompany()
+        fetchData()
     }, [])
 
-    async function fetchCompany(){
+    async function fetchData(){
 
         let { data } = await supabase
         .from('Company')
@@ -20,12 +20,21 @@ const Table = () => {
             )
         `)
                 
-        setCompanies(data)
+        setData(data)
     }
 
-  return (
-    <div>
-    </div>
+    
+    return (
+        <>
+            {data ? (
+                data.map((arrElement) => (
+                    <>
+                        <p>{arrElement.name}</p>
+                        <p>{arrElement.cnpj}</p>
+                    </>
+                ))
+            ) : (<p>Loading....</p>) }
+        </>
   )
 }
 
