@@ -26,14 +26,16 @@ const RegisterForm = () => {
     const [errorInCNPJ, setErrorInCNPJ] = useState(false);
     const [errorInEmail, setErrorInEmail] = useState(false);
     const [errorInPassword, setErrorInPassword] = useState(false);
-    const [highlightColor, setHighlightColor] = useState('gray');
+    const [highlightColor, setHighlightColor] = useState('lightgray');
     
     // Function to validate email addresses
     function validateEmail(email) {
         const matchRegex = /.*@.*\..*/;
         if(email.match(matchRegex)) {
+            console.log("valido")
             return true;
         } else {
+            console.log("nao-valido")
             return false;
         }
     }
@@ -59,7 +61,7 @@ const RegisterForm = () => {
         try {
             const form = document.getElementById("register__form");
             Object.entries(form).forEach((input) => input[1].value='');
-            
+            setHighlightColor('gray')
             return console.log("Formulário Limpo...");    
         } catch (error) {
             return null
@@ -83,35 +85,41 @@ const RegisterForm = () => {
         Object.entries(event.target).forEach((value) => {
             const inputID = value[1].id
             const inputContent = value[1].value
+
             // Select which information is on the Input and set error flag
             switch(inputID){
                 case "company__name":
-                    if(!inputContent){
+                    if(inputContent == ''){
                         setErrorInName(true);
                         canProceed = false;
                     } else {
                         objectToInsert.name = inputContent;
                         setErrorInName(false);
                     }
-
+                    break
+                    
                 case "company__cnpj":
-                    if(!inputContent){
+                    if(inputContent == ''){
                         setErrorInCNPJ(true);
                         canProceed = false;
                     } else {
                         objectToInsert.cnpj = inputContent;
                         setErrorInCNPJ(false);
                     }
+                    break
+                    
+                case "company__email":
+                    if(!validateEmail(inputContent)){
+                    setErrorInEmail(true);
+                    canProceed = false;
+                } else {
+                    objectToInsert.email = inputContent;
+                    setErrorInEmail(false);
+                }
+                break
 
                 case "company__description":
-                    case "company__email":
-                        if(!validateEmail(inputContent)){
-                            setErrorInEmail(true);
-                            canProceed = false;
-                    } else {
-                        objectToInsert.description = inputContent;
-                        setErrorInEmail(false);
-                    }
+                    objectToInsert.description = inputContent;
 
                 case "company__password":
                     if(!validatePassword(inputContent)){
@@ -121,11 +129,12 @@ const RegisterForm = () => {
                         objectToInsert.password = inputContent;
                         setErrorInPassword(false);
                     }
+                break
             }
         })
         
         if(canProceed){
-            //await insertIntoDB(objectToInsert)
+            await insertIntoDB(objectToInsert)
             clearFields(event)
         } else {
             alert('Tem algum erro no formulário')
@@ -171,7 +180,7 @@ const RegisterForm = () => {
                     </span>
                 </section>
 
-                <Button type="submit" size="md" className="bg-customOrange-500 hover:bg-orange-700">Registrar</Button>
+                <Button type="submit" size="md" className="bg-customOrange-500 hover:bg-orange-700 mt-2">Registrar</Button>
             </form>
         </div>
     )
