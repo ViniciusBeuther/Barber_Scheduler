@@ -35,7 +35,6 @@ const RegisterForm = () => {
             console.log("valido")
             return true;
         } else {
-            console.log("nao-valido")
             return false;
         }
     }
@@ -134,10 +133,10 @@ const RegisterForm = () => {
         })
         
         if(canProceed){
-            await insertIntoDB(objectToInsert)
-            clearFields(event)
+            await insertIntoDB(objectToInsert);
+            clearFields(event);
         } else {
-            alert('Tem algum erro no formulário')
+            alert('Algo deu errado')
         }
     }
 
