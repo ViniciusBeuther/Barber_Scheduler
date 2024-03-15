@@ -1,9 +1,10 @@
+import { useState } from "react";
 import { Button, Input, Typography, Avatar } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [user, setUser] = useState({ email: "", password: "" });
-
+  const navigate = useNavigate();
   const handleChange = (ev) => {
     setUser({
       ...user,
@@ -13,6 +14,7 @@ const LoginForm = () => {
   console.log(user);
   const handleSubmit = (ev) => {
     ev.preventDefault();
+    navigate("/homeScreen");
   };
   return (
     <section className=" flex h-screen items-center justify-center bg-customBlue-500 ">
@@ -41,7 +43,9 @@ const LoginForm = () => {
               onChange={handleChange}
               required
             />
-            <Button className=" w-60 bg-customOrange-500">Conectar</Button>
+            <Button type="submit" className=" w-60 bg-customOrange-500">
+              Conectar
+            </Button>
           </form>
           <Link to={"/register"}>
             <Typography
