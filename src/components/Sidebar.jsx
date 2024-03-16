@@ -16,16 +16,50 @@ function Sidebar() {
       </div>
 
       <List>
-        <Checkbox id="aestheticField" label="Estética" ripple={true} className="w-[18px] h-[18px]" color="orange" />
-        <Checkbox id="autosField" label="Automotivo" ripple={true} className="w-[18px] h-[18px]" color="orange" />
-        <Checkbox id="healthcareField" label="Saúde" ripple={true} className="w-[18px] h-[18px]" color="orange" />
-        <Checkbox id="foodField" label="Alimentação" ripple={true} className="w-[18px] h-[18px]" color="orange" />
-        <Checkbox id="entertainmentField" label="Entreterimento" ripple={true} className="w-[18px] h-[18px]" color="orange" />
+        <Checkbox
+          id="aestheticField"
+          label="Estética"
+          ripple={true}
+          className="h-[18px] w-[18px]"
+          color="orange"
+        />
+        <Checkbox
+          id="autosField"
+          label="Automotivo"
+          ripple={true}
+          className="h-[18px] w-[18px]"
+          color="orange"
+        />
+        <Checkbox
+          id="healthcareField"
+          label="Saúde"
+          ripple={true}
+          className="h-[18px] w-[18px]"
+          color="orange"
+        />
+        <Checkbox
+          id="foodField"
+          label="Alimentação"
+          ripple={true}
+          className="h-[18px] w-[18px]"
+          color="orange"
+        />
+        <Checkbox
+          id="entertainmentField"
+          label="Entreterimento"
+          ripple={true}
+          className="h-[18px] w-[18px]"
+          color="orange"
+        />
       </List>
 
-      <div className="flex justify-center p-2 gap-2">
-        <Button className="bg-red-300 text-[10px]" size="sm">Limpar</Button>
-        <Button className="bg-customOrange-500 text-[10px]" size="sm">Filtrar</Button>
+      <div className="flex justify-center gap-2 p-2">
+        <Button className="bg-red-300 text-[10px]" size="sm">
+          Limpar
+        </Button>
+        <Button className="bg-customOrange-500 text-[10px]" size="sm">
+          Filtrar
+        </Button>
       </div>
 
       <h2>da pra por outros itens aqui e dividir a sidebar em 2</h2>

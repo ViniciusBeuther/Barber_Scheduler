@@ -2,18 +2,23 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 import Sidebar from "../components/Sidebar";
+import CardSection from "../components/CardSection";
+
 const HomeScreen = () => {
   return (
-    <section className="flex h-screen flex-col bg-customBlue-500 w-full">
+    <main className="flex h-screen flex-col bg-customBlue-500">
       <Header />
-      <main className="flex flex-1 m-5">
+      <section className="m-5 flex flex-1">
         <Sidebar />
-        <section className="w-full">
-          <SearchBar />
-        </section>
-      </main>
+        <div className="flex flex-col gap-16">
+          <section className="w-full">
+            <SearchBar />
+          </section>
+          <CardSection />
+        </div>
+      </section>
       {/*<Footer />*/}
-    </section>
+    </main>
   );
 };
 
