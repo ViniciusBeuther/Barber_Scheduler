@@ -8,25 +8,24 @@ import {
 
 function Sidebar() {
   return (
-    <Card className="flex w-60 items-center rounded-none shadow-xl shadow-customBlue-500/5">
+    <Card className="flex w-60 items-center rounded-md shadow-xl shadow-customBlue-500/5">
       <div className="p-2">
-        <Typography variant="h5" color="blue-gray">
-          Filtros
+        <Typography variant="h5" className="mb-[-10px]" color="blue-gray">
+          Categorias
         </Typography>
       </div>
+
       <List>
-        <Checkbox id="aestheticField" label="Estética" ripple={true} />
-        <Checkbox id="autosField" label="Automotivo" ripple={true} />
-        <Checkbox id="healthcareField" label="Saúde" ripple={true} />
-        <Checkbox id="foodField" label="Alimentação" ripple={true} />
-        <Checkbox
-          id="entertainmentField"
-          label="Entreternimento"
-          ripple={true}
-        />
+        <Checkbox id="aestheticField" label="Estética" ripple={true} className="w-[18px] h-[18px]" color="orange" />
+        <Checkbox id="autosField" label="Automotivo" ripple={true} className="w-[18px] h-[18px]" color="orange" />
+        <Checkbox id="healthcareField" label="Saúde" ripple={true} className="w-[18px] h-[18px]" color="orange" />
+        <Checkbox id="foodField" label="Alimentação" ripple={true} className="w-[18px] h-[18px]" color="orange" />
+        <Checkbox id="entertainmentField" label="Entreterimento" ripple={true} className="w-[18px] h-[18px]" color="orange" />
       </List>
-      <div className="flex justify-center p-2">
-        <Button className="bg-customBlue-500">Filtrar</Button>
+
+      <div className="flex justify-center p-2 gap-2">
+        <Button className="bg-red-300 text-[10px]" size="sm">Limpar</Button>
+        <Button className="bg-customOrange-500 text-[10px]" size="sm">Filtrar</Button>
       </div>
 
       <h2>da pra por outros itens aqui e dividir a sidebar em 2</h2>

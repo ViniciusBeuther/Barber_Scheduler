@@ -19,7 +19,6 @@ const Table = () => {
             *
             )
         `)
-                
         setData(data)
     }
 

@@ -5,7 +5,7 @@ function Footer() {
     <footer>
       <Typography
         variant="paragraph"
-        className="bg-customOrange-500 py-2 text-center font-normal leading-none text-white"
+        className="bg-customBlue-500 py-2 text-center font-normal leading-none text-white"
       >
         Desenvolvido por Vinicius Beuther e Eric Coca
       </Typography>

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function Header() {
   return (
     <section>
-      <nav className="bg-customOrange-500 px-4 py-1">
+      <nav className="bg-customBlue-500 px-4 py-1">
         <div className="flex  justify-between">
           <Link to={"/homeScreen"}>
             <Typography className="cursor-pointer py-1.5 text-2xl font-normal text-white">
@@ -23,7 +23,7 @@ function Header() {
                   </Typography>
                 </Link>
               </Button>
-              <Button size="sm" className=" bg-customBlue-500">
+              <Button size="sm" className=" bg-customOrange-500 hover:bg-orange-700">
                 <Link to={"/register"}>
                   <Typography
                     variant="paragraph"
