@@ -6,7 +6,16 @@ import {
   Button,
 } from "@material-tailwind/react";
 
-function Sidebar() {
+function Sidebar({
+  aestheticBox,
+  autoBox,
+  HealthBox,
+  foodBox,
+  entertainmentBox,
+  filterFunction,
+  clearFieldsFunction,
+  handleCheckBoxChange,
+}) {
   return (
     <Card className="flex w-60 items-center rounded-md shadow-xl shadow-customBlue-500/5">
       <div className="p-2">
@@ -18,46 +27,69 @@ function Sidebar() {
       <List>
         <Checkbox
           id="aestheticField"
+          name="aesthetic"
           label="Estética"
           ripple={true}
           className="h-[18px] w-[18px]"
           color="orange"
+          checked={aestheticBox}
+          onChange={handleCheckBoxChange}
         />
         <Checkbox
           id="autosField"
+          name="autos"
           label="Automotivo"
           ripple={true}
           className="h-[18px] w-[18px]"
           color="orange"
+          checked={autoBox}
+          onChange={handleCheckBoxChange}
         />
         <Checkbox
           id="healthcareField"
+          name="health"
           label="Saúde"
           ripple={true}
           className="h-[18px] w-[18px]"
           color="orange"
+          checked={HealthBox}
+          onChange={handleCheckBoxChange}
         />
         <Checkbox
           id="foodField"
+          name="food"
           label="Alimentação"
           ripple={true}
           className="h-[18px] w-[18px]"
           color="orange"
+          checked={foodBox}
+          onChange={handleCheckBoxChange}
         />
         <Checkbox
           id="entertainmentField"
-          label="Entreterimento"
+          name="entertainment"
+          label="Entreternimento"
           ripple={true}
           className="h-[18px] w-[18px]"
           color="orange"
+          checked={entertainmentBox}
+          onChange={handleCheckBoxChange}
         />
       </List>
 
       <div className="flex justify-center gap-2 p-2">
-        <Button className="bg-red-300 text-[10px]" size="sm">
+        <Button
+          className="bg-red-300 text-[10px]"
+          size="sm"
+          onClick={clearFieldsFunction}
+        >
           Limpar
         </Button>
-        <Button className="bg-customOrange-500 text-[10px]" size="sm">
+        <Button
+          className="bg-customOrange-500 text-[10px]"
+          size="sm"
+          onClick={filterFunction}
+        >
           Filtrar
         </Button>
       </div>
