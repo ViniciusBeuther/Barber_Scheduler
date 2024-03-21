@@ -48,7 +48,7 @@ const AdminBoard = () => {
                         
                         <TabsBody className="bg-customGray-500 w-full">
                             {data.map(({ value, component }) => (
-                            <TabPanel key={value} value={value} className="py-0">
+                            <TabPanel key={value} value={value}>
                                 {component}
                             </TabPanel>
                             ))}
