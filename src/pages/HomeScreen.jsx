@@ -6,7 +6,7 @@ import CardSection from "../components/CardSection";
 import { useState } from "react";
 
 const HomeScreen = () => {
-  const [test, setTest] = useState({
+  const [categories, setCategories] = useState({
     aesthetic: false,
     autos: false,
     health: false,
@@ -16,7 +16,7 @@ const HomeScreen = () => {
   const [chosenOptions, setChosenOptions] = useState([]);
 
   const handleChange = (ev) => {
-    setTest((prev) => ({
+    setCategories((prev) => ({
       ...prev,
       [ev.target.name]: ev.target.checked,
     }));
@@ -40,6 +40,14 @@ const HomeScreen = () => {
     const chosen = allOptions.filter((option) => option.value == true);
 
     setChosenOptions(chosen);
+
+    setCategories({
+      aesthetic: false,
+      autos: false,
+      health: false,
+      food: false,
+      entertainment: false,
+    });
   };
 
   return (
@@ -47,18 +55,18 @@ const HomeScreen = () => {
       <Header />
       <section className="m-5 flex flex-1">
         <Sidebar
-          aestheticBox={test.aesthetic}
-          HealthBox={test.health}
-          autoBox={test.autos}
-          foodBox={test.food}
-          entertainmentBox={test.entertainment}
+          aestheticBox={categories.aesthetic}
+          HealthBox={categories.health}
+          autoBox={categories.autos}
+          foodBox={categories.food}
+          entertainmentBox={categories.entertainment}
           filterFunction={() =>
             handleFilter(
-              test.aesthetic,
-              test.health,
-              test.autos,
-              test.food,
-              test.entertainment,
+              categories.aesthetic,
+              categories.health,
+              categories.autos,
+              categories.food,
+              categories.entertainment,
             )
           }
           handleCheckBoxChange={handleChange}
