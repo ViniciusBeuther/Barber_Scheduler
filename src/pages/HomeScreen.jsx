@@ -40,7 +40,9 @@ const HomeScreen = () => {
     const chosen = allOptions.filter((option) => option.value == true);
 
     setChosenOptions(chosen);
+  };
 
+  const handleClearCategories = () => {
     setCategories({
       aesthetic: false,
       autos: false,
@@ -48,6 +50,7 @@ const HomeScreen = () => {
       food: false,
       entertainment: false,
     });
+    handleFilter();
   };
 
   return (
@@ -70,6 +73,7 @@ const HomeScreen = () => {
             )
           }
           handleCheckBoxChange={handleChange}
+          clearFieldsFunction={handleClearCategories}
         />
         <div className="flex w-full flex-col gap-10">
           <section className="w-full">
