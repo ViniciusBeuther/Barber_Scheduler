@@ -1,11 +1,13 @@
 import { IoSearch } from "react-icons/io5";
 
-const SearchBar = () => {
+const SearchBar = ({ establishmentTyped, handleSearchBarChange }) => {
   return (
     <div className="flex w-full justify-center">
       <input
         type="text"
         className="w-[50%] rounded-lg p-2 text-[16px] text-customBlue-500 outline-none"
+        value={establishmentTyped}
+        onChange={handleSearchBarChange}
       />
 
       <button className="relative right-10 rounded-lg bg-white p-2">
