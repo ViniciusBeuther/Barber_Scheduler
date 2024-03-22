@@ -82,15 +82,6 @@ const HomeScreen = () => {
     setAllEstablishments(filteredEstablishments);
   };
 
-  const filterTypedEstablishments = () => {
-    const typedEstablishments = establishments.filter((establishment) => {
-      return establishment.establishmentName
-        .toLowerCase()
-        .includes(typedNames.toLowerCase());
-    });
-    setAllEstablishments(typedEstablishments);
-  };
-
   const handleChange = (ev) => {
     setCategories((prev) => ({
       ...prev,
@@ -107,7 +98,6 @@ const HomeScreen = () => {
     });
     setAllEstablishments(typedEstablishments);
   };
-  //console.log(establishmentTyped);
 
   const handleClearCategories = () => {
     setCategories({
