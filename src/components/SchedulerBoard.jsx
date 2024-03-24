@@ -4,7 +4,7 @@ const SchedulerBoard = () => {
     return(
         <div>
             Scheduler Board
-            <ModalChangeInfo />
+            
         </div>
     )
 }

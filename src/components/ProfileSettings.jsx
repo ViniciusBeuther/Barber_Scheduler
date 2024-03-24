@@ -1,9 +1,11 @@
 import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { supabase } from "../API/CreateCompany";
+import ModalChangeInfo from "./ModalChangeInfo";
 
 const ProfileSettings = () => {
   const [data, setData] = useState(null);
+  const [modalIsOpened, setModalIsOpened] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -26,6 +28,18 @@ const ProfileSettings = () => {
 
     fetchData();
   }, []);
+
+// Display the modal
+  function showModal(ev){
+    ev.preventDefault();
+    setModalIsOpened(true)
+  }
+
+// Close modal
+  function handleClose(ev){
+    ev.preventDefault();
+    setModalIsOpened(false)
+  }
 
   return data === null || data == undefined ? (
     <p>Loading</p>
@@ -97,12 +111,21 @@ const ProfileSettings = () => {
         />
 
         <article className="mt-2 flex justify-end">
-          <Button className="bg-customOrange-500 hover:bg-orange-700" size="md">
+          <Button className="bg-customOrange-500 hover:bg-orange-700" size="md" onClick={(ev) => showModal(ev)}>
             Editar
           </Button>
         </article>
 
-        
+        {modalIsOpened ? (
+          <>
+            <Button className="close bg-red-400 px-3 py-2 rounded-full" onClick={(ev) => handleClose(ev)}>
+                &times;
+            </Button>
+            <ModalChangeInfo data={data} isOpen={true} />
+          </>
+        ) : (
+            <p>Fechado</p>
+        ) }
       </div>
     </section>
   );

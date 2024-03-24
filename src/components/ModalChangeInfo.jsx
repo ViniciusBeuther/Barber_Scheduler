@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Button, Input } from "@material-tailwind/react";
+import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
 
-const ModalChangeInfo = () => {
+const ModalChangeInfo = ({ data, isOpen }) => {
   const [showModal, setShowModal] = useState(false);
 
   function handleClick() {
@@ -13,30 +13,12 @@ const ModalChangeInfo = () => {
   }
 
   return (
-    <>
-      <Button onClick={handleClick}>MODAL</Button>
-      {showModal && (
-        <div>
-          <div className="modal">
-            <div className="modal-content">
-              <span className="close" onClick={handleClose}>
-                &times;
-              </span>
-
-              {/* Modal content */}
-              <div className="modal__content">
-                <Input
-                  variant="static"
-                  className="rounded-lg bg-white"
-                  label=""
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
-  );
+    isOpen ? (
+      <p>MODAL ABERTO</p>
+    ) : (
+      <p>FECHADO</p>
+    )
+  )
 };
 
 export default ModalChangeInfo;

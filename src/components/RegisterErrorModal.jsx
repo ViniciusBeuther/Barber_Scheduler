@@ -14,7 +14,7 @@ const RegisterErrorModal = ({ isModalOpen, closeModal }) => {
             }}
             className="w-60 bg-customOrange-500"
           >
-            oops algo deu errado!
+            Oops algo deu errado!
           </Alert>
         </article>
       )}

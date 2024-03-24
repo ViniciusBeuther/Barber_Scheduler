@@ -35,7 +35,7 @@ const AdminBoard = () => {
                 <section id="admin__container__sidebar" className="w-full">
 
                     <Tabs value="html" orientation="vertical" className="h-full">
-                        <TabsHeader className="w-72 bg-customGray-500 flex">
+                        <TabsHeader className="w-72 bg-white opacity-[100%] flex">
                             {data.map(({ label, value, icon }) => (
                             <Tab key={value} value={value} className="justify-start">
                                 <div className="flex items-center justify-start gap-3 text-lg text-customBlue-500">
