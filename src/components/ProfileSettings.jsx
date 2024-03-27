@@ -1,14 +1,6 @@
-import {
-  Button,
-  Input,
-  Select,
-  Option,
-  Textarea,
-  Typography,
-} from "@material-tailwind/react";
+import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { supabase } from "../API/CreateCompany";
-import ModalChangeInfo from "./ModalChangeInfo";
 import { useParams } from "react-router-dom";
 
 const ProfileSettings = () => {
@@ -53,6 +45,7 @@ const ProfileSettings = () => {
     }
 
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   console.log(data);
@@ -78,6 +71,30 @@ const ProfileSettings = () => {
     setSaveBtnvisible(true);
   };
 
+  const sendUpdatedAdminData = async (ev) => {
+    ev.preventDefault();
+    const { data: teste, error } = await supabase
+      .from("Company")
+      .update({
+        cnpj: data.id,
+        created_at: data.created_at,
+        description: data.description,
+        email: data.email,
+        id: data.id,
+        name: data.name,
+        password: data.password,
+        segment: data.segment,
+      })
+      .eq("id", data.id);
+
+    if (teste) {
+      console.log(data);
+    }
+    if (error) {
+      console.log(error);
+    }
+  };
+
   return data === null || data == undefined ? (
     <p>Loading</p>
   ) : (
@@ -87,126 +104,129 @@ const ProfileSettings = () => {
           Dados da Empresa
         </Typography>
 
-        <article className="flex gap-5">
-          <span id="profile__container__nameInfo">
-            <label
-              htmlFor="profile__label__name"
-              className="font-bold text-black"
-            >
-              Empresa:
-            </label>
-            <Input
-              disabled={formItemsEnable.companyName}
-              value={data.name}
-              name="name"
-              className="!border !border-gray-300 bg-white text-gray-900 shadow-lg shadow-gray-900/5 ring-4 ring-transparent placeholder:text-gray-500 placeholder:opacity-100 focus:!border-gray-900 focus:!border-t-gray-900 focus:ring-gray-900/10"
-              labelProps={{
-                className: "hidden",
-              }}
-              onChange={handleChangeData}
-            />
-          </span>
+        <form onSubmit={sendUpdatedAdminData}>
+          <article className="flex gap-5">
+            <span id="profile__container__nameInfo">
+              <label
+                htmlFor="profile__label__name"
+                className="font-bold text-black"
+              >
+                Empresa:
+              </label>
+              <Input
+                disabled={formItemsEnable.companyName}
+                value={data.name}
+                name="name"
+                className="!border !border-gray-300 bg-white text-gray-900 shadow-lg shadow-gray-900/5 ring-4 ring-transparent placeholder:text-gray-500 placeholder:opacity-100 focus:!border-gray-900 focus:!border-t-gray-900 focus:ring-gray-900/10"
+                labelProps={{
+                  className: "hidden",
+                }}
+                onChange={handleChangeData}
+              />
+            </span>
 
-          <span id="profile__container__cnpj">
-            <label
-              htmlFor="profile__label__cnpj"
-              className="font-bold text-black"
-            >
-              CNPJ:
-            </label>
-            <Input
-              disabled={formItemsEnable.companyCNPJ}
-              value={data.cnpj}
-              name="cnpj"
-              className="!border !border-gray-300 bg-white text-customBlue-500 shadow-lg shadow-gray-900/5 ring-4 ring-transparent placeholder:text-gray-500 placeholder:opacity-100 focus:!border-gray-900 focus:!border-t-gray-900 focus:ring-gray-900/10"
-              labelProps={{
-                className: "hidden",
-              }}
-              onChange={handleChangeData}
-            />
-          </span>
-        </article>
+            <span id="profile__container__cnpj">
+              <label
+                htmlFor="profile__label__cnpj"
+                className="font-bold text-black"
+              >
+                CNPJ:
+              </label>
+              <Input
+                disabled={formItemsEnable.companyCNPJ}
+                value={data.cnpj}
+                name="cnpj"
+                className="!border !border-gray-300 bg-white text-customBlue-500 shadow-lg shadow-gray-900/5 ring-4 ring-transparent placeholder:text-gray-500 placeholder:opacity-100 focus:!border-gray-900 focus:!border-t-gray-900 focus:ring-gray-900/10"
+                labelProps={{
+                  className: "hidden",
+                }}
+                onChange={handleChangeData}
+              />
+            </span>
+          </article>
 
-        <article className="flex gap-5">
-          <span id="profile__container__email">
-            <label
-              htmlFor="profile__label__email"
-              className="font-bold text-black"
-            >
-              Email:
-            </label>
-            <Input
-              disabled={formItemsEnable.companyEmail}
-              value={data.email}
-              name="email"
-              className="!border !border-gray-300 bg-white text-customBlue-500 shadow-lg shadow-gray-900/5 ring-4 ring-transparent placeholder:text-gray-500 placeholder:opacity-100 focus:!border-gray-900 focus:!border-t-gray-900 focus:ring-gray-900/10"
-              labelProps={{
-                className: "hidden",
-              }}
-              onChange={handleChangeData}
-            />
-          </span>
+          <article className="flex gap-5">
+            <span id="profile__container__email">
+              <label
+                htmlFor="profile__label__email"
+                className="font-bold text-black"
+              >
+                Email:
+              </label>
+              <Input
+                disabled={formItemsEnable.companyEmail}
+                value={data.email}
+                name="email"
+                className="!border !border-gray-300 bg-white text-customBlue-500 shadow-lg shadow-gray-900/5 ring-4 ring-transparent placeholder:text-gray-500 placeholder:opacity-100 focus:!border-gray-900 focus:!border-t-gray-900 focus:ring-gray-900/10"
+                labelProps={{
+                  className: "hidden",
+                }}
+                onChange={handleChangeData}
+              />
+            </span>
 
-          <span id="profile__container__segment" className="flex flex-col">
-            <label
-              htmlFor="profile__label__segment"
-              className="font-bold text-black"
-            >
-              Segmento:
-            </label>
-            <select
-              name="segment"
-              disabled={formItemsEnable.companySegment}
-              className="h-10 w-[12.5rem] rounded-[7px] bg-white px-3 py-2.5 text-customBlue-500 shadow-lg shadow-gray-900/5 outline-none"
-              id="company__segment"
-              value={data.segment}
-              onChange={handleChangeData}
-            >
-              <option value="Saúde">Saúde</option>
-              <option value="Cuidados Pessoais">Cuidados Pessoais</option>
-              <option value="Alimentício">Alimentício</option>
-            </select>
-          </span>
-        </article>
+            <span id="profile__container__segment" className="flex flex-col">
+              <label
+                htmlFor="profile__label__segment"
+                className="font-bold text-black"
+              >
+                Segmento:
+              </label>
+              <select
+                name="segment"
+                disabled={formItemsEnable.companySegment}
+                className="h-10 w-[12.5rem] rounded-[7px] bg-white px-3 py-2.5 text-customBlue-500 shadow-lg shadow-gray-900/5 outline-none"
+                id="company__segment"
+                value={data.segment}
+                onChange={handleChangeData}
+              >
+                <option value="Saúde">Saúde</option>
+                <option value="Cuidados Pessoais">Cuidados Pessoais</option>
+                <option value="Alimentício">Alimentício</option>
+              </select>
+            </span>
+          </article>
 
-        <label
-          htmlFor="profile__label__segment"
-          className="font-bold text-black"
-        >
-          Descrição:
-        </label>
-        <Textarea
-          disabled={formItemsEnable.companyDescription}
-          value={data.description}
-          name="description"
-          className="!border !border-gray-300 bg-white text-customBlue-500 shadow-lg shadow-gray-900/5 ring-4 ring-transparent placeholder:text-gray-500 placeholder:opacity-100 focus:!border-gray-900 focus:!border-t-gray-900 focus:ring-gray-900/10"
-          labelProps={{
-            className: "hidden",
-          }}
-          onChange={handleChangeData}
-        />
+          <label
+            htmlFor="profile__label__segment"
+            className="font-bold text-black"
+          >
+            Descrição:
+          </label>
+          <Textarea
+            disabled={formItemsEnable.companyDescription}
+            value={data.description}
+            name="description"
+            className="!border !border-gray-300 bg-white text-customBlue-500 shadow-lg shadow-gray-900/5 ring-4 ring-transparent placeholder:text-gray-500 placeholder:opacity-100 focus:!border-gray-900 focus:!border-t-gray-900 focus:ring-gray-900/10"
+            labelProps={{
+              className: "hidden",
+            }}
+            onChange={handleChangeData}
+          />
 
-        <article className="mt-2 flex justify-end gap-3">
-          {saveBtnvisible && (
+          <article className="mt-2 flex justify-end gap-3">
+            {saveBtnvisible && (
+              <Button
+                className="bg-customOrange-500 hover:bg-orange-700"
+                size="md"
+                type="submit"
+              >
+                Salvar
+              </Button>
+            )}
             <Button
               className="bg-customOrange-500 hover:bg-orange-700"
               size="md"
-              onClick={enableEditCompanyInfo}
+              type="button"
+              onClick={() => {
+                enableEditCompanyInfo();
+                makeSaveBtnVisibility();
+              }}
             >
-              Salvar
+              Editar
             </Button>
-          )}
-          <Button
-            className="bg-customOrange-500 hover:bg-orange-700"
-            size="md"
-            onClick={() => {
-              enableEditCompanyInfo();
-              makeSaveBtnVisibility();
-            }}
-          >
-            Editar
-          </Button>
-        </article>
+          </article>
+        </form>
       </div>
     </section>
   );
