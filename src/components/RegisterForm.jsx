@@ -10,8 +10,9 @@ import { useState } from "react";
 import { supabase } from "../API/CreateCompany";
 import RegisterErrorModal from "./RegisterErrorModal";
 
-async function insertIntoDB(Object) {
-  const { data } = await supabase
+async function insertIntoDB(Object, setIsModalOpen) {
+
+  const { data, error } = await supabase
     .from("Company")
     .insert([
       {
@@ -24,6 +25,13 @@ async function insertIntoDB(Object) {
       },
     ])
     .select();
+
+    if (error) {
+      setIsModalOpen(true);
+      return null;
+    }
+    
+    localStorage.setItem("company",JSON.stringify({name: `${Object.name}`, email: `${Object.email}`}));
 }
 
 const RegisterForm = () => {
@@ -149,7 +157,7 @@ const RegisterForm = () => {
     });
 
     if (canProceed) {
-      await insertIntoDB(objectToInsert);
+      await insertIntoDB(objectToInsert, setIsModalOpen);
       clearFields(event);
     } else {
       //alert("Algo deu errado");

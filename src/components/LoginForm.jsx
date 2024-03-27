@@ -1,19 +1,35 @@
 import { useState } from "react";
 import { Button, Input, Typography, Avatar } from "@material-tailwind/react";
 import { Link, useNavigate } from "react-router-dom";
+import { supabase } from "../API/CreateCompany";
+import ErrorModal from "./ErrorModal";
 
 const LoginForm = () => {
   const [user, setUser] = useState({ email: "", password: "" });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const navigate = useNavigate();
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const handleChange = (ev) => {
     setUser({
       ...user,
       [ev.target.name]: ev.target.value,
     });
   };
-  console.log(user);
-  const handleSubmit = (ev) => {
+  const handleSubmit = async (ev) => {
     ev.preventDefault();
+
+    let { data, error } = await supabase.from("Company").select("*").eq("email", user.email).eq("password", user.password);
+
+    if (data == '' || error) {
+      setIsModalOpen(true);
+      return;
+    }
+
     navigate("/homeScreen");
   };
   return (
@@ -57,6 +73,7 @@ const LoginForm = () => {
           </Link>
         </div>
       </article>
+      <ErrorModal isModalOpen={isModalOpen} closeModal={closeModal} message={"Credenciais inválidas!"} />
     </section>
   );
 };
