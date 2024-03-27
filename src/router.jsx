@@ -18,7 +18,7 @@ const router = createBrowserRouter([
         element: <HomeScreen />
     },
     {
-        path: "/admin/",
+        path: "/admin/:companyID",
         element: <AdminBoard />
     }
 ])
