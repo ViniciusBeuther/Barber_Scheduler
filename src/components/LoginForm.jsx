@@ -30,6 +30,8 @@ const LoginForm = () => {
       return;
     }
 
+    localStorage.setItem("company", JSON.stringify(data[0].id));
+
     navigate("/homeScreen");
   };
   return (
