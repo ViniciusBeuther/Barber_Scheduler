@@ -9,9 +9,11 @@ import {
 import { useState } from "react";
 import { supabase } from "../API/CreateCompany";
 import RegisterErrorModal from "./RegisterErrorModal";
+import { useNavigate } from "react-router-dom";
 
-async function insertIntoDB(Object) {
-  const { data } = await supabase
+async function insertIntoDB(Object, setIsModalOpen, navigate) {
+
+  const { data, error } = await supabase
     .from("Company")
     .insert([
       {
@@ -24,6 +26,15 @@ async function insertIntoDB(Object) {
       },
     ])
     .select();
+
+    if (error) {
+      setIsModalOpen(true);
+      return null;
+    }
+    
+    localStorage.setItem("company",JSON.stringify(data[0].id));
+
+    navigate("/homeScreen");
 }
 
 const RegisterForm = () => {
@@ -35,6 +46,8 @@ const RegisterForm = () => {
   const [highlightColor, setHighlightColor] = useState("lightgray");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -48,7 +61,6 @@ const RegisterForm = () => {
   function validateEmail(email) {
     const matchRegex = /.*@.*\..*/;
     if (email.match(matchRegex)) {
-      console.log("valido");
       return true;
     } else {
       return false;
@@ -77,7 +89,6 @@ const RegisterForm = () => {
       const form = document.getElementById("register__form");
       Object.entries(form).forEach((input) => (input[1].value = ""));
       setHighlightColor("gray");
-      return console.log("Formulário Limpo...");
     } catch (error) {
       return null;
     }
@@ -149,10 +160,9 @@ const RegisterForm = () => {
     });
 
     if (canProceed) {
-      await insertIntoDB(objectToInsert);
+      await insertIntoDB(objectToInsert, setIsModalOpen, navigate);
       clearFields(event);
     } else {
-      //alert("Algo deu errado");
       openModal();
     }
   }
