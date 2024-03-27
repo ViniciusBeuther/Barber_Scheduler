@@ -8,6 +8,8 @@ import {
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { supabase } from "../API/CreateCompany";
+import ModalChangeInfo from "./ModalChangeInfo";
+import { useParams } from "react-router-dom";
 
 const ProfileSettings = () => {
   const [data, setData] = useState({
@@ -28,6 +30,7 @@ const ProfileSettings = () => {
     companyDescription: true,
   });
   const [saveBtnvisible, setSaveBtnvisible] = useState(false);
+  const { companyID } = useParams();
 
   useEffect(() => {
     async function fetchData() {
@@ -35,7 +38,7 @@ const ProfileSettings = () => {
         const { data: fetchedData, error } = await supabase
           .from("Company")
           .select("*")
-          .eq("id", "149");
+          .eq("id", `${companyID}`);
 
         if (error) {
           throw error;
@@ -79,10 +82,6 @@ const ProfileSettings = () => {
     <p>Loading</p>
   ) : (
     <section className="flex flex-col items-center justify-center">
-      <div id="profile__container__picture">
-        <p className="h-56 w-56 rounded-full bg-customOrange-500">Picture</p>
-      </div>
-
       <div className="mt-5">
         <Typography variant="h3" className="text-center text-black">
           Dados da Empresa
