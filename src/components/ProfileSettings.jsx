@@ -1,11 +1,33 @@
-import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
+import {
+  Button,
+  Input,
+  Select,
+  Option,
+  Textarea,
+  Typography,
+} from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { supabase } from "../API/CreateCompany";
-import ModalChangeInfo from "./ModalChangeInfo";
 
 const ProfileSettings = () => {
-  const [data, setData] = useState(null);
-  const [modalIsOpened, setModalIsOpened] = useState(false);
+  const [data, setData] = useState({
+    cnpj: "",
+    created_at: "",
+    description: "",
+    email: "",
+    id: +"",
+    name: "",
+    password: "",
+    segment: "",
+  });
+  const [formItemsEnable, setFormItemsEnable] = useState({
+    companyName: true,
+    companyCNPJ: true,
+    companyEmail: true,
+    companySegment: true,
+    companyDescription: true,
+  });
+  const [saveBtnvisible, setSaveBtnvisible] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -18,9 +40,10 @@ const ProfileSettings = () => {
         if (error) {
           throw error;
         }
-
-        setData(fetchedData);
-        console.log(fetchedData);
+        if (fetchedData.length >= 1) {
+          setData(fetchedData[0]);
+        }
+        console.log(fetchedData[0]);
       } catch (error) {
         console.error("Error fetching data:", error.message);
       }
@@ -29,17 +52,28 @@ const ProfileSettings = () => {
     fetchData();
   }, []);
 
-// Display the modal
-  function showModal(ev){
-    ev.preventDefault();
-    setModalIsOpened(true)
-  }
+  console.log(data);
 
-// Close modal
-  function handleClose(ev){
-    ev.preventDefault();
-    setModalIsOpened(false)
-  }
+  const enableEditCompanyInfo = () => {
+    setFormItemsEnable({
+      companyName: false,
+      companyCNPJ: false,
+      companyEmail: false,
+      companySegment: false,
+      companyDescription: false,
+    });
+  };
+
+  const handleChangeData = (ev) => {
+    setData((prev) => ({
+      ...prev,
+      [ev.target.name]: ev.target.value,
+    }));
+  };
+
+  const makeSaveBtnVisibility = () => {
+    setSaveBtnvisible(true);
+  };
 
   return data === null || data == undefined ? (
     <p>Loading</p>
@@ -62,7 +96,16 @@ const ProfileSettings = () => {
             >
               Empresa:
             </label>
-            <Input disabled={true} value={data[0].name} label="Nome:" />
+            <Input
+              disabled={formItemsEnable.companyName}
+              value={data.name}
+              name="name"
+              className="!border !border-gray-300 bg-white text-gray-900 shadow-lg shadow-gray-900/5 ring-4 ring-transparent placeholder:text-gray-500 placeholder:opacity-100 focus:!border-gray-900 focus:!border-t-gray-900 focus:ring-gray-900/10"
+              labelProps={{
+                className: "hidden",
+              }}
+              onChange={handleChangeData}
+            />
           </span>
 
           <span id="profile__container__cnpj">
@@ -72,7 +115,16 @@ const ProfileSettings = () => {
             >
               CNPJ:
             </label>
-            <Input disabled={true} value={data[0].cnpj} label="Nome:" />
+            <Input
+              disabled={formItemsEnable.companyCNPJ}
+              value={data.cnpj}
+              name="cnpj"
+              className="!border !border-gray-300 bg-white text-customBlue-500 shadow-lg shadow-gray-900/5 ring-4 ring-transparent placeholder:text-gray-500 placeholder:opacity-100 focus:!border-gray-900 focus:!border-t-gray-900 focus:ring-gray-900/10"
+              labelProps={{
+                className: "hidden",
+              }}
+              onChange={handleChangeData}
+            />
           </span>
         </article>
 
@@ -82,19 +134,39 @@ const ProfileSettings = () => {
               htmlFor="profile__label__email"
               className="font-bold text-black"
             >
-              Empresa:
+              Email:
             </label>
-            <Input disabled={true} value={data[0].email} label="E-mail:" />
+            <Input
+              disabled={formItemsEnable.companyEmail}
+              value={data.email}
+              name="email"
+              className="!border !border-gray-300 bg-white text-customBlue-500 shadow-lg shadow-gray-900/5 ring-4 ring-transparent placeholder:text-gray-500 placeholder:opacity-100 focus:!border-gray-900 focus:!border-t-gray-900 focus:ring-gray-900/10"
+              labelProps={{
+                className: "hidden",
+              }}
+              onChange={handleChangeData}
+            />
           </span>
 
-          <span id="profile__container__segment">
+          <span id="profile__container__segment" className="flex flex-col">
             <label
               htmlFor="profile__label__segment"
               className="font-bold text-black"
             >
               Segmento:
             </label>
-            <Input disabled={true} value={data[0].segment} label="Segmento:" />
+            <select
+              name="segment"
+              disabled={formItemsEnable.companySegment}
+              className="h-10 w-[12.5rem] rounded-[7px] bg-white px-3 py-2.5 text-customBlue-500 shadow-lg shadow-gray-900/5 outline-none"
+              id="company__segment"
+              value={data.segment}
+              onChange={handleChangeData}
+            >
+              <option value="Saúde">Saúde</option>
+              <option value="Cuidados Pessoais">Cuidados Pessoais</option>
+              <option value="Alimentício">Alimentício</option>
+            </select>
           </span>
         </article>
 
@@ -102,30 +174,40 @@ const ProfileSettings = () => {
           htmlFor="profile__label__segment"
           className="font-bold text-black"
         >
-          Segmento:
+          Descrição:
         </label>
         <Textarea
-          disabled={true}
-          value={data[0].description}
-          label="Descrição:"
+          disabled={formItemsEnable.companyDescription}
+          value={data.description}
+          name="description"
+          className="!border !border-gray-300 bg-white text-customBlue-500 shadow-lg shadow-gray-900/5 ring-4 ring-transparent placeholder:text-gray-500 placeholder:opacity-100 focus:!border-gray-900 focus:!border-t-gray-900 focus:ring-gray-900/10"
+          labelProps={{
+            className: "hidden",
+          }}
+          onChange={handleChangeData}
         />
 
-        <article className="mt-2 flex justify-end">
-          <Button className="bg-customOrange-500 hover:bg-orange-700" size="md" onClick={(ev) => showModal(ev)}>
+        <article className="mt-2 flex justify-end gap-3">
+          {saveBtnvisible && (
+            <Button
+              className="bg-customOrange-500 hover:bg-orange-700"
+              size="md"
+              onClick={enableEditCompanyInfo}
+            >
+              Salvar
+            </Button>
+          )}
+          <Button
+            className="bg-customOrange-500 hover:bg-orange-700"
+            size="md"
+            onClick={() => {
+              enableEditCompanyInfo();
+              makeSaveBtnVisibility();
+            }}
+          >
             Editar
           </Button>
         </article>
-
-        {modalIsOpened ? (
-          <>
-            <Button className="close bg-red-400 px-3 py-2 rounded-full" onClick={(ev) => handleClose(ev)}>
-                &times;
-            </Button>
-            <ModalChangeInfo data={data} isOpen={true} />
-          </>
-        ) : (
-            <p>Fechado</p>
-        ) }
       </div>
     </section>
   );
