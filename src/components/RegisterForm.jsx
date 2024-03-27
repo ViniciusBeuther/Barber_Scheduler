@@ -107,7 +107,7 @@ const RegisterForm = () => {
     };
 
     let canProceed = true;
-
+    
     Object.entries(event.target).forEach((value) => {
       const inputID = value[1].id;
       const inputContent = value[1].value;
@@ -206,13 +206,13 @@ const RegisterForm = () => {
               color="orange"
               className="text-customBlue-500"
               id="company__segment"
-              onChange={() => {
-                setSelectedSegment(event.target.textContent);
+              onChange={(selectedValue) => {
+                setSelectedSegment(selectedValue);
               }}
             >
-              <Option color="white">Saúde</Option>
-              <Option color="white">Cuidados Pessoais</Option>
-              <Option color="white">Alimentício</Option>
+              <Option value="health" color="white">Saúde</Option>
+              <Option value="entertainment" color="white">Entretenimento</Option>
+              <Option value="food" color="white">Alimentício</Option>
             </Select>
           </div>
         </section>
