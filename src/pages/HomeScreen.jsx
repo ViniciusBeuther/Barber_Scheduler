@@ -8,46 +8,67 @@ import healthIcon from "../assets/Icons/health-icon.png";
 import foodServiceIcon from "../assets/Icons/food-service-icon.png";
 import hairSalon from "../assets/Icons/hair-salon-icon.png";
 import toolsIcon from "../assets/Icons/tools-icon.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "../API/CreateCompany";
 
 const HomeScreen = () => {
-  const establishments = [
-    {
-      id: 0,
-      establishmentName: "Sessão filmes antigos",
-      logoType: entertainmentIcon,
-      category: "entertainment",
-      summary: "Cinema com sucessos dos anos 90",
-    },
-    {
-      id: 1,
-      establishmentName: "Clinica bem estar",
-      logoType: healthIcon,
-      category: "health",
-      summary: "Agende consultas com nossos psicólogos",
-    },
-    {
-      id: 2,
-      establishmentName: "Paris 1",
-      logoType: foodServiceIcon,
-      category: "food",
-      summary: "Reserve uma mesa e venha provar nossos pratos",
-    },
-    {
-      id: 3,
-      establishmentName: "Barbearia do calvo",
-      logoType: hairSalon,
-      category: "aesthetic",
-      summary: "Entre calvo e saia cabeludo",
-    },
-    {
-      id: 4,
-      establishmentName: "Mecânica do Zeca",
-      logoType: toolsIcon,
-      category: "autos",
-      summary: "Agende uma revisão",
-    },
-  ];
+
+  const [establishments, setEstablishments] = useState([]);
+
+  useEffect(() => {
+    setAllEstablishments(establishments);
+  }, [establishments]);
+
+  useEffect(() => {
+    async function obterEstabelecimentos() {
+      const { data, error } = await supabase
+        .from("Company")
+        .select("id,name,segment,description");
+      if (error) {
+        console.log("Erro ao buscar estabelecimentos", error);
+      } else {
+        const segmentToCategory = {
+          entertainment: "Entretenimento",
+          health: "Saúde",
+          food: "Alimentação",
+          hair: "Salão de Beleza",
+          tools: "Ferramentas"
+        };
+  
+        const establishmentsWithLogo = data.map(item => {
+          let logoType;
+          switch (item.segment) {
+            case "entertainment":
+              logoType = entertainmentIcon;
+              break;
+            case "health":
+              logoType = healthIcon;
+              break;
+            case "food":
+              logoType = foodServiceIcon;
+              break;
+            case "hair":
+              logoType = hairSalon;
+              break;
+            case "tools":
+              logoType = toolsIcon;
+              break;
+            default:
+              logoType = null; // ou defina um ícone padrão caso necessário
+              break;
+          }
+          return {
+            ...item,
+            logoType: logoType,
+            category: segmentToCategory[item.segment] // Adiciona a categoria traduzida
+          };
+        });
+        setEstablishments(establishmentsWithLogo);
+      }
+    }
+    obterEstabelecimentos();
+  }, []);
+
   const [allEstablishments, setAllEstablishments] = useState(establishments);
   const [establishmentTyped, setEstablishmentTyped] = useState("");
   const [categories, setCategories] = useState({
@@ -92,7 +113,7 @@ const HomeScreen = () => {
   const handleSearchBarChange = (ev) => {
     setEstablishmentTyped(ev.target.value);
     const typedEstablishments = establishments.filter((establishment) => {
-      return establishment.establishmentName
+      return establishment.name
         .toLowerCase()
         .includes(ev.target.value.toLowerCase());
     });
@@ -110,6 +131,25 @@ const HomeScreen = () => {
     setAllEstablishments(establishments);
   };
 
+  const filterEstablishments2 = (
+    aestheticField,
+    autoField,
+    healthField,
+    foodField,
+    entertainmentField
+  ) => {
+    const filteredEstablishments = establishments.filter((establishment) => {
+      return (
+        (aestheticField && establishment.segment === "aesthetic") ||
+        (autoField && establishment.segment === "autos") ||
+        (healthField && establishment.segment === "health") ||
+        (foodField && establishment.segment === "food") ||
+        (entertainmentField && establishment.segment === "entertainment")
+      );
+    });
+    setAllEstablishments(filteredEstablishments);
+  };  
+
   return (
     <main className="flex h-screen flex-col bg-customBlue-500">
       <Header />
@@ -120,15 +160,7 @@ const HomeScreen = () => {
           autoBox={categories.autos}
           foodBox={categories.food}
           entertainmentBox={categories.entertainment}
-          filterFunction={() =>
-            filterEstablishments(
-              categories.aesthetic,
-              categories.health,
-              categories.autos,
-              categories.food,
-              categories.entertainment,
-            )
-          }
+          filterFunction={filterEstablishments2}
           handleCheckBoxChange={handleChange}
           clearFieldsFunction={handleClearCategories}
         />

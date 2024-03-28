@@ -1,7 +1,6 @@
 import EstablishmentCard from "./EstablishmentCard";
 
 const CardSection = ({ establishments }) => {
-  console.log(establishments);
   return (
     <section className="ml-10 flex flex-wrap gap-6">
       {establishments.length >= 1 ? (
@@ -9,10 +8,10 @@ const CardSection = ({ establishments }) => {
           return (
             <EstablishmentCard
               key={establishment.id}
-              establishmentName={establishment.establishmentName}
+              establishmentName={establishment.name}
               logoType={establishment.logoType}
               category={establishment.category}
-              summary={establishment.summary}
+              summary={establishment.description}
             />
           );
         })

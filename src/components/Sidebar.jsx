@@ -9,7 +9,7 @@ import {
 function Sidebar({
   aestheticBox,
   autoBox,
-  HealthBox,
+  healthBox,
   foodBox,
   entertainmentBox,
   filterFunction,
@@ -52,7 +52,7 @@ function Sidebar({
           ripple={true}
           className="h-[18px] w-[18px]"
           color="orange"
-          checked={HealthBox}
+          checked={healthBox}
           onChange={handleCheckBoxChange}
         />
         <Checkbox
@@ -68,7 +68,7 @@ function Sidebar({
         <Checkbox
           id="entertainmentField"
           name="entertainment"
-          label="Entreternimento"
+          label="Entretenimento"
           ripple={true}
           className="h-[18px] w-[18px]"
           color="orange"
@@ -88,7 +88,15 @@ function Sidebar({
         <Button
           className="bg-customOrange-500 text-[10px]"
           size="sm"
-          onClick={filterFunction}
+          onClick={() =>
+            filterFunction(
+              aestheticBox,
+              autoBox,
+              healthBox,
+              foodBox,
+              entertainmentBox
+            )
+          }
         >
           Filtrar
         </Button>
