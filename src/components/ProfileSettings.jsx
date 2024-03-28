@@ -2,6 +2,7 @@ import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { supabase } from "../API/CreateCompany";
 import { useParams } from "react-router-dom";
+import ErrorModal from "./ErrorModal";
 
 const ProfileSettings = () => {
   const [data, setData] = useState({
@@ -22,6 +23,7 @@ const ProfileSettings = () => {
     companyDescription: true,
   });
   const [saveBtnvisible, setSaveBtnvisible] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { companyID } = useParams();
 
   useEffect(() => {
@@ -45,19 +47,18 @@ const ProfileSettings = () => {
     }
 
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   console.log(data);
 
   const enableEditCompanyInfo = () => {
-    setFormItemsEnable({
-      companyName: false,
-      companyCNPJ: false,
-      companyEmail: false,
-      companySegment: false,
-      companyDescription: false,
-    });
+    setFormItemsEnable((prevItems) => ({
+      companyName: !prevItems.companyName,
+      companyCNPJ: !prevItems.companyCNPJ,
+      companyEmail: !prevItems.companyEmail,
+      companySegment: !prevItems.companySegment,
+      companyDescription: !prevItems.companyDescription,
+    }));
   };
 
   const handleChangeData = (ev) => {
@@ -68,12 +69,20 @@ const ProfileSettings = () => {
   };
 
   const makeSaveBtnVisibility = () => {
-    setSaveBtnvisible(true);
+    setSaveBtnvisible((prev) => !prev);
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   const sendUpdatedAdminData = async (ev) => {
     ev.preventDefault();
-    const { data: teste, error } = await supabase
+    const { data: updatedData, error } = await supabase
       .from("Company")
       .update({
         cnpj: data.id,
@@ -87,11 +96,11 @@ const ProfileSettings = () => {
       })
       .eq("id", data.id);
 
-    if (teste) {
-      console.log(data);
-    }
     if (error) {
-      console.log(error);
+      openModal();
+    }
+    if (updatedData) {
+      console.log(updatedData);
     }
   };
 
@@ -175,7 +184,7 @@ const ProfileSettings = () => {
               <select
                 name="segment"
                 disabled={formItemsEnable.companySegment}
-                className="h-10 w-[12.5rem] rounded-[7px] bg-white px-3 py-2.5 text-customBlue-500 shadow-lg shadow-gray-900/5 outline-none"
+                className="h-10 w-[12.5rem] rounded-[7px] bg-white px-3 py-2.5 text-customBlue-500 shadow-lg shadow-gray-900/5 outline-none disabled:bg-[#ECEFF1]"
                 id="company__segment"
                 value={data.segment}
                 onChange={handleChangeData}
@@ -227,6 +236,11 @@ const ProfileSettings = () => {
             </Button>
           </article>
         </form>
+        <ErrorModal
+          closeModal={closeModal}
+          isModalOpen={isModalOpen}
+          message={"Erro na atualização dos dados"}
+        />
       </div>
     </section>
   );
