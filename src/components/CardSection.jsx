@@ -8,6 +8,7 @@ const CardSection = ({ establishments }) => {
           return (
             <EstablishmentCard
               key={establishment.id}
+              id={establishment.id}
               establishmentName={establishment.name}
               logoType={establishment.logoType}
               category={establishment.category}

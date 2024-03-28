@@ -102,7 +102,7 @@ function Sidebar({
         </Button>
       </div>
 
-      <h2>da pra por outros itens aqui e dividir a sidebar em 2</h2>
+      {/* <h2>da pra por outros itens aqui e dividir a sidebar em 2</h2> */}
     </Card>
   );
 }
