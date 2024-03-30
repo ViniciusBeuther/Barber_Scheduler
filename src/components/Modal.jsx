@@ -1,6 +1,6 @@
 import { Alert } from "@material-tailwind/react";
 
-const ErrorModal = ({ isModalOpen, closeModal, message }) => {
+const Modal = ({ isModalOpen, closeModal, message }) => {
   return (
     <section>
       {isModalOpen && (
@@ -21,4 +21,4 @@ const ErrorModal = ({ isModalOpen, closeModal, message }) => {
     </section>
   );
 };
-export default ErrorModal;
+export default Modal;

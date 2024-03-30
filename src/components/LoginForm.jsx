@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Input, Typography, Avatar } from "@material-tailwind/react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../API/CreateCompany";
-import ErrorModal from "./ErrorModal";
+import Modal from "./Modal";
 
 const LoginForm = () => {
   const [user, setUser] = useState({ email: "", password: "" });
@@ -23,9 +23,13 @@ const LoginForm = () => {
   const handleSubmit = async (ev) => {
     ev.preventDefault();
 
-    let { data, error } = await supabase.from("Company").select("*").eq("email", user.email).eq("password", user.password);
+    let { data, error } = await supabase
+      .from("Company")
+      .select("*")
+      .eq("email", user.email)
+      .eq("password", user.password);
 
-    if (data == '' || error) {
+    if (data == "" || error) {
       setIsModalOpen(true);
       return;
     }
@@ -75,7 +79,11 @@ const LoginForm = () => {
           </Link>
         </div>
       </article>
-      <ErrorModal isModalOpen={isModalOpen} closeModal={closeModal} message={"Credenciais inválidas!"} />
+      <Modal
+        isModalOpen={isModalOpen}
+        closeModal={closeModal}
+        message={"Credenciais inválidas!"}
+      />
     </section>
   );
 };

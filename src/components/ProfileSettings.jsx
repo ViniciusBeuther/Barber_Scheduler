@@ -2,7 +2,7 @@ import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { supabase } from "../API/CreateCompany";
 import { useParams } from "react-router-dom";
-import ErrorModal from "./ErrorModal";
+import ErrorModal from "./Modal";
 
 const ProfileSettings = () => {
   const [data, setData] = useState({
