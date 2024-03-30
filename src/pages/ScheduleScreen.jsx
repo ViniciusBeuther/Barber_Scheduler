@@ -95,7 +95,6 @@ const ScheduleScreen = () => {
             ...prev,
             name: fetchedData[0].name,
           }));
-          console.log(fetchedData[0]);
         }
       } catch (error) {
         console.error("Error fetching data:", error.message);
