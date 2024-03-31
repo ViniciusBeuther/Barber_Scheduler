@@ -2,7 +2,7 @@ import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { supabase } from "../API/CreateCompany";
 import { useParams } from "react-router-dom";
-import ErrorModal from "./Modal";
+import Modal from "./Modal";
 
 const ProfileSettings = () => {
   const [data, setData] = useState({
@@ -40,7 +40,6 @@ const ProfileSettings = () => {
         if (fetchedData.length >= 1) {
           setData(fetchedData[0]);
         }
-        console.log(fetchedData[0]);
       } catch (error) {
         console.error("Error fetching data:", error.message);
       }
@@ -48,8 +47,6 @@ const ProfileSettings = () => {
 
     fetchData();
   }, []);
-
-  console.log(data);
 
   const enableEditCompanyInfo = () => {
     setFormItemsEnable((prevItems) => ({
@@ -99,9 +96,9 @@ const ProfileSettings = () => {
     if (error) {
       openModal();
     }
-    if (updatedData) {
-      console.log(updatedData);
-    }
+    // if (updatedData) {
+    //   console.log(updatedData);
+    // }
   };
 
   return data === null || data == undefined ? (
@@ -236,7 +233,7 @@ const ProfileSettings = () => {
             </Button>
           </article>
         </form>
-        <ErrorModal
+        <Modal
           closeModal={closeModal}
           isModalOpen={isModalOpen}
           message={"Erro na atualização dos dados"}

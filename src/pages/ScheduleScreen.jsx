@@ -64,9 +64,9 @@ const ScheduleScreen = () => {
     if (error) {
       console.log(error);
     }
-    if (updatedData) {
-      console.log(updatedData);
-    }
+    // if (updatedData) {
+    //   console.log(updatedData);
+    // }
 
     openModal("confirm");
     setClientData({
