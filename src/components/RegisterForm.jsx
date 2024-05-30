@@ -23,7 +23,7 @@ async function insertIntoDB(Object, setIsModalOpen, navigate) {
         description: `${Object.description}`,
         email: `${Object.email}`,
         password: `${Object.password}`,
-      },
+      }, 
     ])
     .select();
 
